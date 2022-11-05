@@ -63,17 +63,24 @@ namespace cse210_student_csharp_Greed
         {
             if (Raylib.IsKeyDown(KeyboardKey.KEY_D)) 
             {
-                PlayerRectangle.x += Speed;
+                if (PlayerRectangle.x <= 800 - Size)
+                {
+                    PlayerRectangle.x += Speed;
+                }
             }
 
             if (Raylib.IsKeyDown(KeyboardKey.KEY_A)) 
             {
-                PlayerRectangle.x -= Speed;
+                if (PlayerRectangle.x >= 0)
+                {
+                    PlayerRectangle.x -= Speed;
+                }
+                
             }
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
+                // Object Reference Not found 
                 // Fall.CreateObjects(2, -Speed, playerPosition, Size);
-                Console.WriteLine("PEW");
             }
         }
         public void drawPlayer()
