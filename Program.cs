@@ -22,7 +22,7 @@ namespace cse210_student_csharp_Greed
         Rectangle PlayerRectangle = new Rectangle(ScreenWidth - (RectangleSize * 2), ScreenHeight - (RectangleSize * 2), RectangleSize, RectangleSize);
         
         Fall fall = new Fall(MovementSpeed, Objects, ScreenHeight, ScreenWidth, RectangleSize, count, score);
-        Player player = new Player(MovementSpeed, PlayerRectangle, RectangleSize);
+        Player player = new Player(MovementSpeed, PlayerRectangle, RectangleSize, fall);
 
         Raylib.InitWindow(ScreenWidth, ScreenHeight, "Greed");
         Raylib.SetTargetFPS(60);
@@ -47,20 +47,22 @@ namespace cse210_student_csharp_Greed
     // Player deals with all Player inputs and Positioning for future reference.
     public class Player
     {
-        public Player(int MovementSpeed, Rectangle Player, int size)
+        public Player(int MovementSpeed, Rectangle Player, int size, Fall fall)
         {
             PlayerRectangle = Player;
             Speed = MovementSpeed;
             Size = size;
-            // var playerPosition = new Vector2(PlayerRectangle.x, PlayerRectangle.y); 
+            var playerPosition = new Vector2(Player.x, Player.y); 
+            fallf = fall;
         }
         public Rectangle PlayerRectangle;
         int Speed;
         int Size;
-        // Vector2 playerPosition;
+        Fall fallf;
         
         public void Input()
         {
+            var playerPosition = new Vector2(PlayerRectangle.x, PlayerRectangle.y);
             if (Raylib.IsKeyDown(KeyboardKey.KEY_D)) 
             {
                 if (PlayerRectangle.x <= 800 - Size)
@@ -79,8 +81,8 @@ namespace cse210_student_csharp_Greed
             }
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-                //Object Reference Not found 
-                // Fall.CreateObjects(2, -Speed, playerPosition, Size);
+                // Object Reference Not found 
+                fallf.CreateObjects(2, -Speed, playerPosition, Size);
             }
         }
         public void drawPlayer()
@@ -148,7 +150,7 @@ namespace cse210_student_csharp_Greed
                     Rock rock = (Rock)obj;
                     if (Raylib.CheckCollisionRecs(rock.eachRectangle(), PlayerRectangle)) 
                     {
-                        subScore();
+                        subScore(1);
                         objectsToRemove.Add(obj);
                     }
                     foreach (var col in objects)
@@ -158,7 +160,7 @@ namespace cse210_student_csharp_Greed
                             Bolt bolt = (Bolt)col;
                             if (Raylib.CheckCollisionRecs(bolt.eachboltRectangle(), rock.eachRectangle()))
                             {
-                                addScore();
+                                addScore(2);
                                 objectsToRemove.Add(obj);
                                 objectsToRemove.Add(col);
                             }
@@ -171,7 +173,7 @@ namespace cse210_student_csharp_Greed
                     Gem gem = (Gem)obj;
                     if (Raylib.CheckCollisionCircleRec(gem.Position, gem.Radius, PlayerRectangle)) 
                     {
-                        addScore();
+                        addScore(1);
                         objectsToRemove.Add(obj);
                     }  
                     foreach (var col in objects)
@@ -181,7 +183,7 @@ namespace cse210_student_csharp_Greed
                             Bolt bolt = (Bolt)col;
                             if (Raylib.CheckCollisionCircleRec(gem.Position, gem.Radius, bolt.eachboltRectangle()))
                             {
-                                subScore();
+                                subScore(2);
                                 objectsToRemove.Add(obj);
                                 objectsToRemove.Add(col);
                             }
@@ -200,14 +202,14 @@ namespace cse210_student_csharp_Greed
             objects = objects.Except(objectsToRemove).ToList();
         }
         // method for increasing player's score 
-        public void addScore()
+        public void addScore(int value)
         {
-            Score += 1;
+            Score += value;
         }
         // method for decreasing player's score 
-        public void subScore()
+        public void subScore(int value)
         {
-            Score -= 1;
+            Score -= value;
         }
         // Method for displaying score 
         public void newScore()
