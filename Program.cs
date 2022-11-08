@@ -1,7 +1,6 @@
 ﻿using System;
 using Raylib_cs;
 using System.Numerics;
-using System.Collections.Generic;
 
 // Our code will include eight classes; player, Score, rock, gem, shooter, falling objects, Point, & Game. 
 
@@ -20,7 +19,7 @@ namespace cse210_student_csharp_Greed
         int score = 0;
         var Objects = new List<Moving_objects>();
         Rectangle PlayerRectangle = new Rectangle(ScreenWidth - (RectangleSize * 2), ScreenHeight - (RectangleSize * 2), RectangleSize, RectangleSize);
-        
+
         Fall fall = new Fall(MovementSpeed, Objects, ScreenHeight, ScreenWidth, RectangleSize, count, score);
         Player player = new Player(MovementSpeed, PlayerRectangle, RectangleSize, fall);
 
@@ -315,11 +314,11 @@ namespace cse210_student_csharp_Greed
             Size = size;
         }
         override public void Draw() {
-            Raylib.DrawRectangle((int)Position.X, (int)Position.Y, Size, Size+(Size/3), Color);
+            Raylib.DrawRectangle((int)Position.X, (int)Position.Y, Size/3, (Size+(Size/3))/2, Color);
         }
         public Rectangle eachboltRectangle()
         {
-            Rectangle ownedboltRectangle = new Rectangle((int)Position.X, (int)Position.Y, Size, Size+(Size/3));
+            Rectangle ownedboltRectangle = new Rectangle((int)Position.X, (int)Position.Y, Size/3, (Size+(Size/3))/2);
             return ownedboltRectangle;
         }
 
