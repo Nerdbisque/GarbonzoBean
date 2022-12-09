@@ -193,7 +193,11 @@ namespace cse210_student_csharp_Greed
             }
             foreach (var obj in objects)
             {
-                if (obj.Position.Y > Height + 20)
+                if (obj.Position.Y > Height + 30)
+                {
+                    objectsToRemove.Add(obj);
+                }
+                if (obj.Position.Y < Height - 30)
                 {
                     objectsToRemove.Add(obj);
                 }
@@ -242,7 +246,7 @@ namespace cse210_student_csharp_Greed
                 }
         }
         // Generates colors for the 
-        public Color GenerateColor()
+        private Color GenerateColor()
         {
             var Random = new Random();
             Color[] Colors = {Color.SKYBLUE, Color.BROWN, Color.BEIGE,Color.DARKPURPLE, Color.VIOLET, Color.PURPLE, Color.DARKBLUE, Color.BLUE, 
